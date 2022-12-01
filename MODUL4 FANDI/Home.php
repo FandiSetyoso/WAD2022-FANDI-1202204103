@@ -17,8 +17,10 @@
         <div class="container">
             <div class="collapse navbar-collapse">
                 <div class="navbar-nav gap-3">
-                    <a href="" class="nav-link" style="color: white;">Home</a>
+                    <a href="Home.php" class="nav-link" style="color: white;">Home</a>
                     <a href="AddItem.php" class="nav-link">Mycar</a>
+                    <a href="Profile.php" class="nav-link">Profile</a>
+                    <a href="logout.php" class="nav-link">Logout</a>
                 </div>
             </div>
         </div>

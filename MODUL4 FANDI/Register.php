@@ -1,41 +1,101 @@
+<?php
+require "Connector.php";
+
+if (isset($_POST["daftar"])) {
+  $nama = $_POST["nama"];
+  $email = strtolower($_POST["email"]);
+  $password = mysqli_real_escape_string($koneksi, $_POST["password"]);
+  $pwdConfirm = mysqli_real_escape_string($koneksi, $_POST["password2"]);
+  $no_hp = $_POST["no"];
+  $result = mysqli_query($koneksi, "SELECT email FROM user_fandi WHERE email = '$email'");
+
+  if (mysqli_num_rows(($result)) !== 1 && $password == $pwdConfirm) {
+    $password = password_hash($password, PASSWORD_DEFAULT);
+    mysqli_query($koneksi, "INSERT INTO user_fandi (nama, email, password, no_hp) VALUES ('$nama', '$email', '$password', '$no_hp')");
+    echo "<div class='alert alert-success alert-dismissible fade show fixed-top' role='alert'>
+                    <span>Register berhasil, silahkan login!</span>
+                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                </div>";
+    echo "<meta http-equiv='refresh' content='2 url=Login.php'>";
+  } elseif (mysqli_num_rows(($result)) === 1) {
+    echo "<div class='alert alert-danger alert-dismissible fade show fixed-top' role='alert'>
+                <span>Email sudah terdaftar!</span>
+                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                </div>";
+  } elseif ($password !== $pwdConfirm) {
+    echo "<div class='alert alert-danger alert-dismissible fade show fixed-top' role='alert'>
+                <span>Password tidak sesuai!</span>
+                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                </div>";
+  }
+}
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+  <title>Register</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <style>
+    <?php include 'style.css'; ?>
+  </style>
 </head>
+
 <body>
-    <!--Isi-->
-    <div class="container">
-  <div class="row">
-    <div class="col">
-    <img src="imagelogin.png" alt="..." height="1024px" width="702px">
-    </div>
-    <div class="col">
-    <div class="d-flex gap-5 justify-content-center align-items-center" style="margin-top: 200px; margin-bottom: 200px;">
-    <h1>Register</h1>
-      <form action="AddRegister.php" method="POST" enctype="multipart/form-data">
-        <label for="nama">Nama</label>
-        <input type="text" id="nama" name="nama" placeholder="Masukkan Nama">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="Masukkan Email">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Masukkan Password">
-        <label for="no_hp">No HP</label>
-        <input type="number" id="no_hp" name="no_hp" placeholder="Masukkan No HP">
-        <button type="submit" class="btn btn-primary" style="margin-top: 40px;">Daftar</button>
-      </form>
+  <section id="login">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-md-6 min-vh-100 left">
+            <img src="imagelogin.png" style="object-fit:fill; height:100%;" alt="foto">
+        </div>
+        <div class="col-md-6">
+          <div class="form-login m-auto ps-5">
+            <h2 class="fw-bold mb-4">Register</h2>
+            <form action="" method="post">
+              <!-- Email input -->
+              <div class="mb-3 position-relative">
+                <label class="form-label " for="email">Email address</label>
+                <span class="required" style="top: 0px; left: 41px;">*</span>
+                <input type="email" id="email" class="form-control form-control-lg" name="email" placeholder="masukan email" required />
+
+              </div>
+              <!-- nama input -->
+              <div class="form-outline mb-4">
+                <label class="form-label" for="nama">Nama</label>
+                <span class="required" style="top: 0px; left: 41px;">*</span>
+                <input type="nama" id="nama" class="form-control form-control-lg" name="nama" placeholder="masukan nama" required />
+              </div>
+              <!-- no hp input -->
+              <div class="form-outline mb-4">
+                <label class="form-label" for="no">No Hp</label>
+                <span class="required" style="top: 0px; left: 41px;">*</span>
+                <input type="no" id="no" class="form-control form-control-lg" name="no" placeholder="masukan No Hp" required />
+              </div>
+              <!-- Password input -->
+              <div class="form-outline mb-4">
+                <label class="form-label" for="password">Password</label>
+                <span class="required" style="top: 0px; left: 41px;">*</span>
+                <input type="password" id="password" class="form-control form-control-lg" name="password" placeholder="masukan password" required />
+              </div>
+              <div class="form-outline mb-4">
+                <!-- Password input -->
+                <div class="form-outline mb-3">
+                  <label class="form-label" for="password2">konfirmasi Password</label>
+                  <span class="required" style="top: 0px; left: 41px;">*</span>
+                  <input type="password" id="password2" class="form-control form-control-lg" name="password2" placeholder="masukan ulang password" required />
+                </div>
+                <div class="text-center text-lg-start mt-4 pt-2">
+                  <button type="submit" name="daftar" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Daftar</button>
+                  <p class="small fw-bold mt-2 pt-1 mb-0">anda sudah punya akun? <a href="Login.php" class="link-danger">Login</a></p>
+                </div>
+            </form>
+          </div>
+        </div>
       </div>
-      <div>
-        <h6 class="mb-4" style="text-align: center;">Sudah punya akun ? <a href="Login.php">Login</a></h6>
-      </div>
     </div>
+  </section>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 </body>
+
 </html>
