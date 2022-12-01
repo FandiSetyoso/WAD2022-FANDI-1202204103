@@ -21,17 +21,20 @@
     <div class="col">
     <div class="d-flex gap-5 justify-content-center align-items-center" style="margin-top: 200px; margin-bottom: 200px;">
     <h1>Register</h1>
-      <form action="Add.php" method="POST" enctype="multipart/form-data">
+      <form action="AddRegister.php" method="POST" enctype="multipart/form-data">
         <label for="nama">Nama</label>
         <input type="text" id="nama" name="nama" placeholder="Masukkan Nama">
         <label for="email">Email</label>
-        <input type="text" id="email" name="email" placeholder="Masukkan Email">
+        <input type="email" id="email" name="email" placeholder="Masukkan Email">
         <label for="password">Password</label>
-        <input type="text" id="password" name="password" placeholder="Masukkan Password">
-        <label for="nohp">No HP</label>
-        <input type="text" id="nohp" name="nohp" placeholder="Masukkan No HP">
+        <input type="password" id="password" name="password" placeholder="Masukkan Password">
+        <label for="no_hp">No HP</label>
+        <input type="number" id="no_hp" name="no_hp" placeholder="Masukkan No HP">
         <button type="submit" class="btn btn-primary" style="margin-top: 40px;">Daftar</button>
       </form>
+      </div>
+      <div>
+        <h6 class="mb-4" style="text-align: center;">Sudah punya akun ? <a href="Login.php">Login</a></h6>
       </div>
     </div>
 </body>
